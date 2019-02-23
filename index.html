@@ -12,7 +12,8 @@
     <script>
       jQuery(function(){
         var s = (location.href.split("?")[1]||'index');
-        $('#contents').load(s.substring(0, s.indexOf('&'))+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
+        s = s.contains('&')?s.substring(0, s.indexOf('&'):s;
+        $('#contents').load(s)+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
       });
     </script>
   </head>
