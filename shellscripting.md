@@ -117,7 +117,7 @@
     sort << listado.txt
   `
 
-## 15. Redirigir salida a la entrada de otro archivo
+## 15. Redirigir salida a la entrada de otro comando
   `
     ls | sort
     ls | sort | more     # Se pueden concatenar varios
