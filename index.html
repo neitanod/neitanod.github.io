@@ -13,7 +13,7 @@
       jQuery(function(){
         var s = (location.href.split("?")[1]||'index');
         s = s.contains('&')?s.substring(0, s.indexOf('&')):s;
-        $('#contents').load(s)+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
+        $('#contents').load(s+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
       });
     </script>
   </head>
