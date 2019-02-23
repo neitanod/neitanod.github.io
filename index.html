@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
     <script>
       jQuery(function(){
-        $('#contents').load((location.href.split("?")[1]||'index')+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
+        $('#contents').load((location.href.split("?")[1]||'index').substring(0, s.indexOf('&'))+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
       });
     </script>
   </head>
