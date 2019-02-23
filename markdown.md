@@ -23,10 +23,10 @@ Otro Header 2
 En un párrafo puede haber [un link] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Este es el Title del link") con un title.
 
 ###Imagen:
-![Slither](http://www.slither-io.com/chrome/changeskin2.png)
+![Slither](images/slither.png)
 
 ###Imagen con link:
-[![Slither](http://www.slither-io.com/chrome/changeskin2.png)](http://slither.io/)
+[![Slither](images/slither.png)](http://slither.io/)
 
 
 ---
