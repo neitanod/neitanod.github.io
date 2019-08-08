@@ -298,5 +298,22 @@
     bash <(curl -s http://miserver.com/miscript.txt)
   `
 
+## 23. Eliminar una subcadena del principio o final de otra
+  `
+    string="hello-world"
+    prefix="hell"
+    suffix="ld"
 
+    # Queremos obtener: "o-wor"
+    foo=${string#"$prefix"}
+    foo=${foo%"$suffix"}
+    echo "${foo}"   # o  echo $foo
+    o-wor
+  `
+
+  `
+    # Llamando al script con un archivo queremos eliminar la extensión .tar.gz
+    table=${1%".tar.gz"}
+    echo $table
+  `
 
