@@ -303,7 +303,9 @@
     string="hello-world"
     prefix="hell"
     suffix="ld"
+  `
 
+  `
     # Queremos obtener: "o-wor"
     foo=${string#"$prefix"}
     foo=${foo%"$suffix"}
