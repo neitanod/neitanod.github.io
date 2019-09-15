@@ -9,8 +9,11 @@ var intentos = 0;
 print("Tengo un número secreto.  ");
 
 while(!adivino) {
+
   intentos++;
+
   printline("Cuál es su adivinación?");
+
   var guess;
   guess = await input();
 
@@ -24,7 +27,6 @@ while(!adivino) {
     adivino = true;
   }
 }
-
 </textarea>
     <button onclick="run();" id="runner">RUN</button>
     <pre id="console"></pre>
