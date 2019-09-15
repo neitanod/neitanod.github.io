@@ -6,13 +6,10 @@ var secret = Math.floor(Math.random()*1000);
 var adivino = false;
 var intentos = 0;
 
-print("Tengo un número secreto.  ");
+printline("Tengo un número secreto.  Cuál es su adivinación?");
 
 while(!adivino) {
-
   intentos++;
-
-  printline("Cuál es su adivinación?");
 
   var guess;
   guess = await input();
