@@ -39,12 +39,10 @@ while(!adivino) {
         try {
             var program = $("#program").value;
             $("#screen").classList.add("running");
-            console.log("Running...");
             await eval( "(async () => {" + program + "})()" );
-            console.log("Done.");
         }
         catch (err) {
-            printline(err);
+            printline("ERROR: " + err);
         } finally {
             await key();
             $("#screen").classList.remove("running");
@@ -65,13 +63,17 @@ while(!adivino) {
         ib.classList.add("show");
         i.focus();
         return new Promise(
-            resolve => {
+            (resolve, reject) => {
                 var listener = function(e) {
                     if(e.keyCode === 13) {
-                        console.log("INPUT");
                         ib.classList.remove("show");
                         i.removeEventListener("keydown", listener);
                         setTimeout(()=>{printline("> "+i.value); resolve(i.value);}, 0);
+                    }
+                    if(e.keyCode === 67 && e.getModifierState("Control")) {
+                        ib.classList.remove("show");
+                        i.removeEventListener("keydown", listener);
+                        setTimeout(()=>{reject("Cancelled by the user.");}, 0);
                     }
                 };
                 i.addEventListener("keydown", listener);
@@ -82,13 +84,9 @@ while(!adivino) {
         return new Promise(
             resolve => {
                 var listener = function(e) {
-                    console.log("KEY");
-                    console.log(e.keyCode);
-                    console.log("Removing event listener");
                     $('body').removeEventListener("keydown", listener);
                     setTimeout(()=>resolve(getChar(e)), 0);
                 };
-                console.log("Adding event listener");
                 $('body').addEventListener("keydown", listener);
             }
         );
