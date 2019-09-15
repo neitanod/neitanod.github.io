@@ -1,5 +1,7 @@
-<div id="screen">
-<textarea id="program" onkeydown="event.keyCode == 27 ? run() : 0;">
+<html>
+    <meta charset="utf-8">
+    <div id="screen">
+        <textarea id="program" onkeydown="event.keyCode == 27 ? run() : 0;">
 clear();
 
 var secret = Math.floor(Math.random()*100);
@@ -25,119 +27,120 @@ while(!adivino) {
   }
 }
 </textarea>
-    <button onclick="run();" id="runner">RUN</button>
-    <pre id="console"></pre>
-    <div id="input-box">
-        > <input id="input" type="text"></input>
+        <button onclick="run();" id="runner">RUN</button>
+        <pre id="console"></pre>
+        <div id="input-box">
+            > <input id="input" type="text"></input>
+        </div>
     </div>
-</div>
-<script>
-    function $(selector) { return document.querySelector(selector); }
-    function $$(selector) { return document.querySelectorAll(selector); }
-    async function run(){
-        try {
-            var program = $("#program").value;
-            $("#screen").classList.add("running");
-            await eval( "(async () => {" + program + "})()" );
-        }
-        catch (err) {
-            printline("ERROR: " + err);
-        } finally {
-            await key();
-            $("#screen").classList.remove("running");
-            $("#program").focus();
-        }
-    }
-    function print(message) {
-        $('#console').innerText += message;
-    }
-    function printline(message) {
-        if( message === undefined ) message = "";
-        $('#console').innerText += message + "\n";
-    }
-    async function input() {
-        var ib = $('#input-box');
-        var i = $('#input');
-        i.value = "";
-        ib.classList.add("show");
-        i.focus();
-        return new Promise(
-            (resolve, reject) => {
-                var listener = function(e) {
-                    if(e.keyCode === 13) {
-                        ib.classList.remove("show");
-                        i.removeEventListener("keydown", listener);
-                        setTimeout(()=>{printline("> "+i.value); resolve(i.value);}, 0);
-                    }
-                    if(e.keyCode === 67 && e.getModifierState("Control")) {
-                        ib.classList.remove("show");
-                        i.removeEventListener("keydown", listener);
-                        setTimeout(()=>{reject("Cancelled by the user.");}, 0);
-                    }
-                };
-                i.addEventListener("keydown", listener);
+    <script>
+        function $(selector) { return document.querySelector(selector); }
+        function $$(selector) { return document.querySelectorAll(selector); }
+        async function run(){
+            try {
+                var program = $("#program").value;
+                $("#screen").classList.add("running");
+                await eval( "(async () => {" + program + "})()" );
             }
-        );
-    }
-    async function key() {
-        return new Promise(
-            resolve => {
-                var listener = function(e) {
-                    $('body').removeEventListener("keydown", listener);
-                    setTimeout(()=>resolve(getChar(e)), 0);
-                };
-                $('body').addEventListener("keydown", listener);
+            catch (err) {
+                printline("ERROR: " + err);
+            } finally {
+                await key();
+                $("#screen").classList.remove("running");
+                $("#program").focus();
             }
-        );
-    }
-    function clear() {
-        $('#console').innerText = "";
-    }
-    function getChar(e){
-        if(e.keyCode!=16){ // If the pressed key is anything other than SHIFT
-                var c = String.fromCharCode(e.keyCode);
-                if (e.shiftKey){
-                    return e.getModifierState("CapsLock") ? c.toLowerCase(c) : c ;
-                } else {
-                    return e.getModifierState("CapsLock") ? c : c.toLowerCase(c) ;
+        }
+        function print(message) {
+            $('#console').innerText += message;
+        }
+        function printline(message) {
+            if( message === undefined ) message = "";
+            $('#console').innerText += message + "\n";
+        }
+        async function input() {
+            var ib = $('#input-box');
+            var i = $('#input');
+            i.value = "";
+            ib.classList.add("show");
+            i.focus();
+            return new Promise(
+                (resolve, reject) => {
+                    var listener = function(e) {
+                        if(e.keyCode === 13) {
+                            ib.classList.remove("show");
+                            i.removeEventListener("keydown", listener);
+                            setTimeout(()=>{printline("> "+i.value); resolve(i.value);}, 0);
+                        }
+                        if(e.keyCode === 67 && e.getModifierState("Control")) {
+                            ib.classList.remove("show");
+                            i.removeEventListener("keydown", listener);
+                            setTimeout(()=>{reject("Cancelled by the user.");}, 0);
+                        }
+                    };
+                    i.addEventListener("keydown", listener);
                 }
+            );
         }
-    }
+        async function key() {
+            return new Promise(
+                resolve => {
+                    var listener = function(e) {
+                        $('body').removeEventListener("keydown", listener);
+                        setTimeout(()=>resolve(getChar(e)), 0);
+                    };
+                    $('body').addEventListener("keydown", listener);
+                }
+            );
+        }
+        function clear() {
+            $('#console').innerText = "";
+        }
+        function getChar(e){
+            if(e.keyCode!=16){ // If the pressed key is anything other than SHIFT
+                    var c = String.fromCharCode(e.keyCode);
+                    if (e.shiftKey){
+                        return e.getModifierState("CapsLock") ? c.toLowerCase(c) : c ;
+                    } else {
+                        return e.getModifierState("CapsLock") ? c : c.toLowerCase(c) ;
+                    }
+            }
+        }
 
-</script>
-<style>
-#screen {
-    min-height: 80%;
-    padding: 30px;
-}
-#screen.running {
-    background-color: black;
-    color: white;
-}
-#screen.running #program,
-#screen.running #runner
-{
-    display: none;
-}
-#screen.running #input {
-    background-color: black;
-    color: white;
-}
-#program {
-    width: 90%;
-    height: 50%;
-}
-#input-box {
-    display: none;
-}
-#input {
-    border: none;
-    width: 90%;
-}
-#input:focus{
-    outline: none;
-}
-#input-box.show {
-    display: block;
-}
-</style>
+    </script>
+    <style>
+        #screen {
+            min-height: 80%;
+            padding: 30px;
+        }
+        #screen.running {
+            background-color: black;
+            color: white;
+        }
+        #screen.running #program,
+        #screen.running #runner
+        {
+            display: none;
+        }
+        #screen.running #input {
+            background-color: black;
+            color: white;
+        }
+        #program {
+            width: 90%;
+            height: 50%;
+        }
+        #input-box {
+            display: none;
+        }
+        #input {
+            border: none;
+            width: 90%;
+        }
+        #input:focus{
+            outline: none;
+        }
+        #input-box.show {
+            display: block;
+        }
+    </style>
+</html>
