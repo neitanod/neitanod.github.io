@@ -1,33 +1,13 @@
 <html>
     <meta charset="utf-8">
+    <script src="axios.min.js"></script>
     <div id="screen">
         <textarea id="program" onkeydown="event.keyCode == 27 ? run() : 0;">
-clear();
-
-var secret = Math.floor(Math.random()*100);
-var adivino = false;
-var intentos = 0;
-
-printline("Tengo un número secreto.  Cuál es su adivinación?");
-
-while(!adivino) {
-  intentos++;
-
-  var guess;
-  guess = await input();
-
-  if( guess < secret ) printline("Más alto!");
-
-  if( guess > secret ) printline("Más bajo!");
-
-  if( guess == secret ) {
-    printline();
-    printline("FELICITACIONES, ADIVINÓ EN "+intentos+" INTENTOS!");
-    adivino = true;
-  }
-}
-</textarea>
+        </textarea>
+        <br/>
+        <br/>
         <button onclick="run();" id="runner">RUN</button>
+        <button onclick="save();" id="saver">SAVE</button>
         <pre id="console"></pre>
         <div id="input-box">
             > <input id="input" type="text"></input>
@@ -35,90 +15,116 @@ while(!adivino) {
     </div>
     <script>
         function $(selector) { return document.querySelector(selector); }
-        function $$(selector) { return document.querySelectorAll(selector); }
-        async function run(){
-            try {
-                var program = $("#program").value;
-                $("#screen").classList.add("running");
-                await eval( "(async () => {" + program + "})()" );
-            }
-            catch (err) {
-                printline("ERROR: " + err);
-            } finally {
-                await key();
-                $("#screen").classList.remove("running");
-                $("#program").focus();
-            }
-        }
-        function print(message) {
-            $('#console').innerText += message;
-        }
-        function printline(message) {
-            if( message === undefined ) message = "";
-            $('#console').innerText += message + "\n";
-        }
-        async function input() {
-            var ib = $('#input-box');
-            var i = $('#input');
-            i.value = "";
-            ib.classList.add("show");
-            i.focus();
-            return new Promise(
-                (resolve, reject) => {
-                    var listener = function(e) {
-                        if(e.keyCode === 13) {
-                            ib.classList.remove("show");
-                            i.removeEventListener("keydown", listener);
-                            setTimeout(()=>{printline("> "+i.value); resolve(i.value);}, 0);
-                        }
-                        if(e.keyCode === 67 && e.getModifierState("Control")) {
-                            ib.classList.remove("show");
-                            i.removeEventListener("keydown", listener);
-                            setTimeout(()=>{reject("Cancelled by the user.");}, 0);
-                        }
-                    };
-                    i.addEventListener("keydown", listener);
+function $$(selector) { return document.querySelectorAll(selector); }
+async function run(){
+    try {
+        var program = $("#program").value;
+        $("#screen").classList.add("running");
+        await eval( "(async () => {" + program + "})()" );
+    }
+    catch (err) {
+        printline("ERROR: " + err);
+    } finally {
+        await key();
+        $("#screen").classList.remove("running");
+        $("#program").focus();
+    }
+}
+function print(message) {
+    $('#console').innerText += message;
+}
+function printline(message) {
+    if( message === undefined ) message = "";
+    $('#console').innerText += message + "\n";
+}
+async function input() {
+    var ib = $('#input-box');
+    var i = $('#input');
+    i.value = "";
+    ib.classList.add("show");
+    i.focus();
+    return new Promise(
+        (resolve, reject) => {
+            var listener = function(e) {
+                if(e.keyCode === 13) {
+                    ib.classList.remove("show");
+                    i.removeEventListener("keydown", listener);
+                    setTimeout(()=>{printline("> "+i.value); resolve(i.value);}, 0);
                 }
-            );
-        }
-        async function key() {
-            return new Promise(
-                resolve => {
-                    var listener = function(e) {
-                        $('body').removeEventListener("keydown", listener);
-                        setTimeout(()=>resolve(getChar(e)), 0);
-                    };
-                    $('body').addEventListener("keydown", listener);
+                if(e.keyCode === 67 && e.getModifierState("Control")) {
+                    ib.classList.remove("show");
+                    i.removeEventListener("keydown", listener);
+                    setTimeout(()=>{reject("Cancelled by the user.");}, 0);
                 }
-            );
+            };
+            i.addEventListener("keydown", listener);
         }
-        function clear() {
-            $('#console').innerText = "";
+    );
+}
+async function key() {
+    return new Promise(
+        resolve => {
+            var listener = function(e) {
+                $('body').removeEventListener("keydown", listener);
+                setTimeout(()=>resolve(getChar(e)), 0);
+            };
+            $('body').addEventListener("keydown", listener);
         }
-        function getChar(e){
-            if(e.keyCode!=16){ // If the pressed key is anything other than SHIFT
-                    var c = String.fromCharCode(e.keyCode);
-                    if (e.shiftKey){
-                        return e.getModifierState("CapsLock") ? c.toLowerCase(c) : c ;
-                    } else {
-                        return e.getModifierState("CapsLock") ? c : c.toLowerCase(c) ;
-                    }
-            }
+    );
+}
+function clear() {
+    $('#console').innerText = "";
+}
+function getChar(e){
+    if(e.keyCode!=16){ // If the pressed key is anything other than SHIFT
+        var c = String.fromCharCode(e.keyCode);
+        if (e.shiftKey){
+            return e.getModifierState("CapsLock") ? c.toLowerCase(c) : c ;
+        } else {
+            return e.getModifierState("CapsLock") ? c : c.toLowerCase(c) ;
         }
+    }
+}
+function save() {
+    axios({
+        url:"https://publish.ip1.cc",
+        method:"POST",
+        data: {data: $('#program').value}
+    })
+        .then( function(r) {
+            window.location.hash = r.data.key; } )
+}
+function loadById() {
+    if(!window.location.hash) {
+        let demos = ['9afc68cbeed40fc25b79b0a88d1d3291',   // Traductor al jeringozo
+                     '6044d722ebbf3ecdf228393a33d4ed19'];  // Adivina el número secreto
+        window.location.hash = demos[Math.floor(Math.random() * demos.length)];
+    }
 
+    if(window.location.hash) {     // si el URL tiene un hash, asumimos que es la key de los datos a recuperar
+        axios({ url: "https://publish.ip1.cc/storage/uploads/"+window.location.hash.substr(1)+".json" })  // recuperamos los datos
+            .then( function(r) {
+                console.log(r);
+                $('#program').value = r.data;
+            } )
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadById);
     </script>
     <style>
-        #screen {
-            min-height: 80%;
-            padding: 30px;
-        }
+#screen {
+    min-height: 80%;
+    padding: 30px;
+}
         #screen.running {
             background-color: black;
             color: white;
         }
         #screen.running #program,
-        #screen.running #runner
-        {
+        #screen.running #runner,
+        #screen.running #saver
+            {
             display: none;
         }
         #screen.running #input {
@@ -128,6 +134,7 @@ while(!adivino) {
         #program {
             width: 90%;
             height: 50%;
+            padding: 5px;
         }
         #input-box {
             display: none;
@@ -141,6 +148,18 @@ while(!adivino) {
         }
         #input-box.show {
             display: block;
+        }
+        button {
+            height: 44px;
+            min-width: 78px;
+            padding: 0 20px;
+            color: white;
+            caret-color: white;
+            background-color: #1867c0;
+            border-color: #1867c0;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
         }
     </style>
 </html>
