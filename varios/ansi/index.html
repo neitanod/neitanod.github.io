@@ -2,7 +2,7 @@
     <body style="background-color: black;">
         <script src="jquery-3.4.1.min.js"></script>
         <script src="ansi_up.js" crossorigin="anonymous"></script>
-        <div id="contents" style="background-color: black;"></div>
+        <pre id="contents" style="background-color: black;"></pre>
         <script>
             console.log(top.location.hash.substr(1));
             $.get(top.location.hash.substr(1)).done(function(data){
