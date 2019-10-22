@@ -4,9 +4,10 @@
     <div id="contents"></div>
     <script>
         console.log(top.location.hash.substr(1));
-        $("#contents").load(top.location.hash.substr(1));
-        var ansi_up = new AnsiUp;
-        var html = ansi_up.ansi_to_html($("#contents").innerHTML);
-        $("#contents").innerHTML = html;
+        $.get(top.location.hash.substr(1), function(data, status){
+            var ansi_up = new AnsiUp;
+            var html = ansi_up.ansi_to_html(data);
+            $("#contents").innerHTML = html;
+        });
     </script>
 </html>
