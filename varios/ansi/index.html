@@ -4,6 +4,6 @@
     <div id="contents"></div>
     <script>
         console.log(top.location.hash.substr(1));
-        $("#contents").get(top.location.hash.substr(1));
+        $("#contents").load(top.location.hash.substr(1));
     </script>
 </html>
