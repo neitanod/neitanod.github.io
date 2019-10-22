@@ -5,5 +5,8 @@
     <script>
         console.log(top.location.hash.substr(1));
         $("#contents").load(top.location.hash.substr(1));
+        var ansi_up = new AnsiUp;
+        var html = ansi_up.ansi_to_html($("#contents").innerHTML);
+        $("#contents").innerHTML = html;
     </script>
 </html>
