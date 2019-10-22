@@ -3,6 +3,7 @@
     <script src="ansi_up.js" crossorigin="anonymous"></script>
     <div id="contents"></div>
     <script>
-        $("#contents").get(top.location.hash);
+        console.log(top.location.hash.substr(1));
+        $("#contents").get(top.location.hash.substr(1));
     </script>
 </html>
