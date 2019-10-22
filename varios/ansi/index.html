@@ -4,11 +4,14 @@
     <div id="contents"></div>
     <script>
         console.log(top.location.hash.substr(1));
-        $.get(top.location.hash.substr(1), function(data, status){
+$.get({
+    url: top.location.hash.substr(1),
+    done: function(data, status){
             console.log(data);
             var ansi_up = new AnsiUp;
             var html = ansi_up.ansi_to_html(data);
             $("#contents").innerHTML = html;
-        });
+    }
+});
     </script>
 </html>
