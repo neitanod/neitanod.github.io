@@ -8,7 +8,7 @@
             console.log(data);
             var ansi_up = new AnsiUp;
             var html = ansi_up.ansi_to_html(data);
-            $("#contents").innerHTML = html;
+            $("#contents").html(html);
         });
     </script>
 </html>
