@@ -39,10 +39,13 @@
   `
 
   `
-    if [[ "$1" == "-h" || "$1" == "--help" ]]     # $1 es igual a -h o a --help ?
+    if [[
+          "$1" == "-h" ||
+          "$1" == "--help"
+       ]]                                 # $1 es igual a -h o a --help ?
       then
-        echo "Help requested.  Show it here!"
-        exit 0                                    # Abandona el script sin considerarlo un error
+        cat doc/help.txt
+        exit 0                            # Abandona el script sin considerarlo un error
     fi
   `
 
@@ -142,7 +145,7 @@
       a la entrada estándar del comando wc.
       El bloque termina cuando el delimitador
       indicado en la primer linea (en este
-      caso la palabra EOF) aparece sola
+      caso la palabra EOF) aparece solo
       en una línea, sin espacios adelante
       ni atrás, y sin otras palabras.
     EOF
