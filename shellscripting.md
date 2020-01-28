@@ -39,10 +39,10 @@
   `
 
   `
-    if [[ "$1" == "-h" || "$1" == "--help" ]]   # $1 es igual a `-h` o a `--help` ?
+    if [[ "$1" == "-h" || "$1" == "--help" ]]     # $1 es igual a -h o a --help ?
       then
-        echo "-h passed as first argument"
-        exit 0                             # Abandona el script sin considerarlo un error
+        echo "Help requested.  Show it here!"
+        exit 0                                    # Abandona el script sin considerarlo un error
     fi
   `
 
