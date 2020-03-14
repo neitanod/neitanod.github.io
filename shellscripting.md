@@ -330,3 +330,22 @@
     echo $table
   `
 
+## 24. Ejecutar otro script desde el script actual
+  `
+    # Make the other script executable, add the #!/bin/bash line at the top, 
+    # and the path where the file is to the $PATH environment variable. Then
+    # you can call it as a normal command;
+
+    # Or call it with the source command (alias is .) like this: source /path/to/script;
+
+    # Or use the bash command to execute it: /bin/bash /path/to/script;  (and
+    # pass arguments)
+  `
+
+## 25. Ejecutar un comando para varios archivos de una carpeta
+  `
+    for filename in ./*.js
+    do
+        echo ${filename}
+    done
+  `
