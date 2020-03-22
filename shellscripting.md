@@ -89,7 +89,7 @@
     date +%Y%m%d   # imprime en formato YYYYmmdd
     man date       # para ver otros formatos
   `
-## 10. Incluir la salida de un subcomando en el comando a correr con backticks: \`
+## 10. Incluir la salida de un subcomando en el comando a correr con backticks:
   `
     echo "La fecha actual es: `\``date +"%-d del %-m de %Y"`\``"
   `
@@ -176,7 +176,7 @@
     expr 2 * 2                      # Error de sintaxis!  el * tiene que ser escapado pero sólo con expr,
                                     # no es necesario con $((  ))
     expr 2 \* 2                     # imprime "4"
-    echo `expr 2 + 2`               # imprime "4"
+    echo `\``expr 2 + 2`\``               # imprime "4"
     man expr                        # para ver otras expresiones
   `
 
