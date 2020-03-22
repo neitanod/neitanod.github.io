@@ -163,7 +163,7 @@
     # No funciona con |.
   `
 
-## 18. Evaluar expresiones con `$(( \<expr\> ))` y con \`expr\`
+## 18. Evaluar expresiones con `$(( &lt;expr&gt; ))` y con \`expr\`
   `
     echo $((2+2))                   # imprime "4"
     echo $((2*3))                   # imprime "6"
@@ -176,7 +176,7 @@
     expr 2 * 2                      # Error de sintaxis!  el * tiene que ser escapado pero sólo con expr,
                                     # no es necesario con $((  ))
     expr 2 \* 2                     # imprime "4"
-    echo `\``expr 2 + 2`\``               # imprime "4"
+    echo `\``expr 2 + 2`\``                # imprime "4"
     man expr                        # para ver otras expresiones
   `
 
