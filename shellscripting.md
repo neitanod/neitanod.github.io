@@ -298,7 +298,7 @@
     man test                   # para ver otras posibles evaluaciones
   `
 
-## 22. Ejecutar un script remoto
+## 22. Descargar y ejecutar un script remoto
   `
     # Usando wget
     bash <(wget -qO- http://miserver.com/miscript.txt)
@@ -309,7 +309,12 @@
     bash <(curl -s http://miserver.com/miscript.txt)
   `
 
-## 23. Eliminar una subcadena del principio o final de otra
+## 23. Ejecutar un comando en una máquina remota via SSH
+  `
+    ssh -t user@remote 'ls'
+  `
+
+## 24. Eliminar una subcadena del principio o final de otra
   `
     string="hello-world"
     prefix="hell"
@@ -330,7 +335,7 @@
     echo $table
   `
 
-## 24. Ejecutar otro script desde el script actual
+## 25. Ejecutar otro script desde el script actual
   `
     Tres posibles maneras:
 
@@ -346,7 +351,7 @@
     (esta opción permite pasarle argumentos)
   `
 
-## 25. Ejecutar un comando para varios archivos de una carpeta
+## 26. Ejecutar un comando para varios archivos de una carpeta
   `
     for filename in ./*.js
     do
