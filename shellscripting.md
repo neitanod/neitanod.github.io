@@ -163,7 +163,7 @@
     # No funciona con |.
   `
 
-## 18. Evaluar expresiones con `$(( <expr> ))` y con `expr`
+## 18. Evaluar expresiones con `$(( \<expr\> ))` y con \`expr\`
   `
     echo $((2+2))                   # imprime "4"
     echo $((2*3))                   # imprime "6"
