@@ -336,20 +336,19 @@
   `
 
 ## 25. Ejecutar otro script desde el script actual
-  `
+  
     Tres posibles maneras:
 
-    Para hacer ejecutable a otro script agregar #!/bin/bash al principio,
+    Para hacer ejecutable a otro script agregar `#!/bin/bash` al principio,
     cambiar sus permisos y agregar el path donde se encuentra dicho script a la 
-    variable de entorno $PATH . De ese modo se puede ejecutar como cualquier
+    variable de entorno `$PATH` . De ese modo se puede ejecutar como cualquier
     comando del sistema.
 
     Otra opción es llamarlo con el comando source (su alias es .) de este modo:
-    source /path/to/script;
+    `source /path/to/script;`
 
-    La más usada, sin embargo, es simplemente ejecutar /bin/bash /path/to/script;
+    La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`.
     (esta opción permite pasarle argumentos)
-  `
 
 ## 26. Ejecutar un comando para varios archivos de una carpeta
   `
