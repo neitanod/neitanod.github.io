@@ -358,3 +358,24 @@
         echo ${filename}
     done
   `
+
+## 27. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
+  `
+    #!/bin/bash
+    
+    # Max Builds to keep
+    MAX=3
+    
+    DIR=$1
+    COMMAND="find $DIR -maxdepth 1 ! -path $DIR -type d"
+    TOTAL=`$COMMAND | wc -l`
+    
+    for i in `$COMMAND | awk -F "/" '{print $NF}' | sort -n`; do 
+        if [ "$TOTAL" -gt "$MAX"  ]; then
+            echo Removing build $i
+            rm -rf $DIR/$i
+        fi
+
+        (( TOTAL--  ));
+    done
+  `
