@@ -381,3 +381,41 @@
         (( TOTAL--  ));
     done
   `
+
+## 28. Informar tiempo transcurrido en segundos
+`
+    job_started=$(date +%s)
+    step1_started=$(date +%s)    
+
+    # some commands here
+
+    step1_finished=$(date +%s)
+    step2_started=$(date +%s)
+
+    # some commands here
+    
+    step2_finished=$(date +%s)
+    job_finished=$(date +%s)
+
+    echo "Step 1 completed in $(($step1_finished - $step1_started)) seconds.  -  TASK 1 NAME HERE"
+    echo "Step 2 completed in $(($step2_finished - $step2_started)) seconds.  -  TASK 2 NAME HERE"
+    
+    echo "Job completed in $(($deploy_finished - $deploy_started)) seconds."
+`
+
+## 29. Echo and log: Mostrar en consola pero también redirigir a archivo
+`
+    log_file="/var/log/my_log_file.log"
+    function echo_and_log() {
+    $@ 2>&1 | tee ${log_file}
+    }
+
+    echo_and_log    echo "Listing directory"
+    echo_and_log    ls
+    echo_and_log    echo "Done"
+`
+
+## 30. Copiar un path completo con Rsync
+`
+    rsync -a  --exclude=".git" --exclude="node_modules" ${source_root}/ ${target_path}
+`
