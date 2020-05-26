@@ -17,6 +17,9 @@
   `
     #!/bin/bash
     php "$HOME/bin/gotodir/go.php" $*     # Pasa todos los parámetros
+
+    # $@ contiene un array con los argumentos
+    # mientras que $* contiene a todos los argumentos en una sola cadena
   `
 
 ## 3. Verificar si un parámetro fué pasado o no:
@@ -47,6 +50,41 @@
         cat doc/help.txt
         exit 0                            # Abandona el script sin considerarlo un error
     fi
+  `
+
+  `
+    # $@ contiene un array con los argumentos
+    # mientras que $* contiene a todos los argumentos en una sola cadena
+
+    for arg in "$@"
+    do
+        if [[
+            "$arg" == "-h" ||
+            "$arg" == "--help"
+        ]]
+        then
+            cd "$(dirname "$0")"
+            cat deploy.go.mapsentry.com.txt
+            exit 0
+        fi
+
+        if [[
+            "$arg" == "--no-js" ||
+            "$arg" == "--install-precompiled-js"
+        ]]
+        then
+            skip_mpn="yes"
+            skip_gulp="yes"
+        fi
+
+        if [[
+            "$arg" == "--install-precompiled-js"
+        ]]
+        then
+            install_precompiled_js="yes"
+        fi
+
+    done
   `
 
 ## 4. Ejecutar en la carpeta del script:
@@ -407,7 +445,7 @@
 `
     log_file="/var/log/my_log_file.log"
     function echo_and_log() {
-    $@ 2>&1 | tee ${log_file}
+        $@ 2>&1 | tee -a ${log_file}
     }
 
     echo_and_log    echo "Listing directory"
