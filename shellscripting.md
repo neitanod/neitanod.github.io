@@ -85,6 +85,26 @@
         fi
 
     done
+
+
+    # Luego uso lo que averigüé examinando cada variable creada:
+
+    # if zero
+    if [[ -z "$skip_mpn" ]]
+        then
+            npm install
+        else
+            echo npm install SKIPPED
+    fi
+
+    # if nonzero
+    if [[ -n "$install_precompiled_js" ]]
+        then
+            echo_and_log    echo
+            echo_and_log    echo "Installing precompiled app.js from repository"
+            echo_and_log    echo "---------------------------------------------"
+            echo_and_log    cp ${target_path}/public/js_precompiled/app.js ${target_path}/public/js/app.js
+    fi
   `
 
 ## 4. Ejecutar en la carpeta del script:
