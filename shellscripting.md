@@ -396,20 +396,22 @@
 
 ## 25. Ejecutar otro script desde el script actual
   
-    Tres posibles maneras:
+Tres posibles maneras:
 
-    Para hacer ejecutable a otro script agregar `#!/bin/bash` al principio,
-    cambiar sus permisos y agregar el path donde se encuentra dicho script a la 
-    variable de entorno `$PATH` . De ese modo se puede ejecutar como cualquier
-    comando del sistema.
+Para hacer ejecutable a otro script agregar `#!/bin/bash` al principio,
+cambiar sus permisos y agregar el path donde se encuentra dicho script a la 
+variable de entorno `$PATH` . De ese modo se puede ejecutar como cualquier
+comando del sistema.
 
-    Otra opción es llamarlo con el comando source (su alias es .) de este modo:
-    `source /path/to/script;`
+Otra opción es llamarlo con el comando source (su alias es .) de este modo:
+`source /path/to/script;`
 
-    La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`.
-    (esta opción permite pasarle argumentos)
+La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`.
+(esta opción permite pasarle argumentos)
+
 
 ## 26. Ejecutar un comando para varios archivos de una carpeta
+
   `
     for filename in ./*.js
     do
@@ -418,7 +420,9 @@
   `
 
 ## 27. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
+
   `
+
     #!/bin/bash
      
     # remove-old-builds.sh
@@ -441,7 +445,9 @@
   `
 
 ## 28. Informar tiempo transcurrido en segundos
+
 `
+
     job_started=$(date +%s)
     step1_started=$(date +%s)    
 
@@ -462,7 +468,9 @@
 `
 
 ## 29. Echo and log: Mostrar en consola pero también redirigir a archivo
+
 `
+
     log_file="/var/log/my_log_file.log"
     function echo_and_log() {
         $@ 2>&1 | tee -a ${log_file}
