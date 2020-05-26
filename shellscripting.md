@@ -422,7 +422,6 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 ## 27. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
 
   `
-
     #!/bin/bash
      
     # remove-old-builds.sh
@@ -447,7 +446,6 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 ## 28. Informar tiempo transcurrido en segundos
 
 `
-
     job_started=$(date +%s)
     step1_started=$(date +%s)    
 
@@ -470,7 +468,6 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 ## 29. Echo and log: Mostrar en consola pero también redirigir a archivo
 
 `
-
     log_file="/var/log/my_log_file.log"
     function echo_and_log() {
         $@ 2>&1 | tee -a ${log_file}
