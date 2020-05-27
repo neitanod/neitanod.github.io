@@ -17,10 +17,12 @@
   `
     #!/bin/bash
     php "$HOME/bin/gotodir/go.php" $*     # Pasa todos los parámetros
-
-    # $@ contiene un array con los argumentos
-    # mientras que $* contiene a todos los argumentos en una sola cadena
   `
+  
+$@ contiene un array con los argumentos.
+
+mientras que $* contiene a todos los argumentos en una sola cadena.
+  
 
 ## 3. Verificar si un parámetro fué pasado o no:
   `
@@ -52,10 +54,11 @@
     fi
   `
 
-  `
-    # $@ contiene un array con los argumentos
-    # mientras que $* contiene a todos los argumentos en una sola cadena
+$@ contiene un array con los argumentos.
 
+mientras que $* contiene a todos los argumentos en una sola cadena.
+
+  `
     for arg in "$@"
     do
         if [[
@@ -107,6 +110,33 @@
     fi
   `
 
+  `
+    # Tutorial rápido de "getopts":     https://archive.is/TRzn4
+
+    # Usar getopts es seguro, usar getopt (sin s final) no.
+    # getopts es un comando interno de bash.  getopt es un binario GNU con
+    # distintas implementaciones.
+  `
+
+  `
+    # Ejemplo de getopts:
+
+    while getopts ":a:" opt; do
+      case $opt in
+        a)
+          echo "-a was triggered, Parameter: $OPTARG" >&2
+          ;;
+        \?)
+          echo "Invalid option: -$OPTARG" >&2
+          exit 1
+          ;;
+        :)
+          echo "Option -$OPTARG requires an argument." >&2
+          exit 1
+          ;;
+      esac
+    done 
+  `
 ## 4. Ejecutar en la carpeta del script:
   `
     #!/bin/bash
@@ -403,8 +433,7 @@ cambiar sus permisos y agregar el path donde se encuentra dicho script a la
 variable de entorno `$PATH` . De ese modo se puede ejecutar como cualquier
 comando del sistema.
 
-Otra opción es llamarlo con el comando source (su alias es .) de este modo:
-`source /path/to/script;`
+Otra opción es llamarlo con el comando source (su alias es .) de este modo: `source /path/to/script;`
 
 La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`.
 (esta opción permite pasarle argumentos)
@@ -422,6 +451,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 ## 27. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
 
   `
+
     #!/bin/bash
      
     # remove-old-builds.sh
@@ -445,7 +475,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 
 ## 28. Informar tiempo transcurrido en segundos
 
-`
+  `
     job_started=$(date +%s)
     step1_started=$(date +%s)    
 
@@ -463,11 +493,11 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     echo "Step 2 completed in $(($step2_finished - $step2_started)) seconds.  -  TASK 2 NAME HERE"
     
     echo "Job completed in $(($deploy_finished - $deploy_started)) seconds."
-`
+  `
 
 ## 29. Echo and log: Mostrar en consola pero también redirigir a archivo
 
-`
+  `
     log_file="/var/log/my_log_file.log"
     function echo_and_log() {
         $@ 2>&1 | tee -a ${log_file}
@@ -476,7 +506,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     echo_and_log    echo "Listing directory"
     echo_and_log    ls
     echo_and_log    echo "Done"
-`
+  `
 
 ## 30. Copiar un path completo con Rsync
 `
