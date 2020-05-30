@@ -24,7 +24,7 @@
                 Asciidoctor().convert( $('#contents').text() )
             )
                     // Replace icons with FontAwesome compatible icon tags:
-                    .find(".icon")
+                    .find("span.icon")
                     .replaceWith(
                         function(e) {
                             return '<i class="fa fa-'+$(this).text().replace(/[\[\]]+/g,"")+'"/>';
