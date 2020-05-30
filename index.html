@@ -15,17 +15,17 @@
     <script>
       jQuery(function(){
         var s = (location.href.split("?")[1]||'index');
-        var ad = false;
+        var ad = true;
         s = s.includes('&')?s.substring(0, s.indexOf('&')):s;
-        s.includes('.ad')?ad=true:null;
+        s.includes('.md')?ad=false:null;
           if( ad ) {
               // Use AsciiDoc format
-            $('#contents').load(s, function(){$('#contents').html(
+            $('#contents').load(s+'.txt', function(){$('#contents').html(
                 Asciidoctor().convert( $('#contents').text() )
             )});
           } else {
               // Use Markdown format
-              $('#contents').load(s+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
+              $('#contents').load(s, function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
           }
       });
     </script>
