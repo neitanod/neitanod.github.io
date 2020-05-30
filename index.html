@@ -14,11 +14,12 @@
     <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
     <script>
       jQuery(function(){
-        var s = (location.href.split("?")[1]||'index');
-        var ad = true;
+        var s = (location.href.split("#")[0]||location.href);
+        s = (s.split("?")[1]||'index');
+        var md = false;
         s = s.includes('&')?s.substring(0, s.indexOf('&')):s;
-        s.includes('.md')?ad=false:null;
-          if( ad ) {
+        s.includes('.md')?md=true:null;
+          if( !md ) {
               // Use AsciiDoc format
             $('#contents').load(s+'.txt', function(){$('#contents').html(
                 Asciidoctor().convert( $('#contents').text() )
