@@ -29,7 +29,15 @@ También a los párrafos se les pueden asignar clases CSS.
 [.text-center]
 Algunas de estas clases (como _.text-center_) ya tienen función predefinida.
 
+icon:tag[]
 
+icon:project-diagram[]
+
+icon:shopping\-cart[] Algo
+
+icon:tags[] Has some text
+
+icon:tags[role="blue"] ruby, asciidoctor
 
 == {counter:index}. Bloques de código
 
@@ -54,6 +62,11 @@ Este bloque es una cita.
 ____
 
 
+--
+Open block
+--
+
+
 [.text-center]
 .Bloques aparte
 ****
@@ -65,6 +78,7 @@ It was designed from the start to be a shorthand syntax
 [.text-left]
 for producing professional documents like DocBook and LaTeX.
 ****
+
 
 
 
