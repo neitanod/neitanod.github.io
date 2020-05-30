@@ -1,8 +1,10 @@
 = Guia rápida de shell scripting
 :showtitle:
 :icons: font
+:toc-title: Contenidos
+:toc:
 
-## 1. Shebang:
+== 1. Shebang:
 
 [source,bash]
 ----
@@ -17,7 +19,7 @@ bash puede no estar en /bin) Sobre todo si en vez de bash se está tratando de
 encontrar otro intérprete como python o php, cuyas ubicaciones varían más
 
 
-## 2. Pasar parámetros:
+== 2. Pasar parámetros:
 
 [source,bash]
 ----
@@ -29,7 +31,7 @@ NOTE: `$@` contiene un array con los argumentos, mientras que `$*` contiene a
 todos los argumentos en una sola cadena.
 
 
-## 3. Verificar si un parámetro fué pasado o no:
+== 3. Verificar si un parámetro fué pasado o no:
 
 [source,bash]
 ----
@@ -137,7 +139,7 @@ todos los argumentos en una sola cadena.
     done
 ----
 
-## 4. Ejecutar en la carpeta del script:
+== 4. Ejecutar en la carpeta del script:
 
 [source,bash]
 ----
@@ -145,7 +147,7 @@ todos los argumentos en una sola cadena.
     cd "$(dirname "$0")"
 ----
 
-## 5. Concatenar ejecuciones:
+== 5. Concatenar ejecuciones:
 
 [source,bash]
 ----
@@ -154,14 +156,14 @@ todos los argumentos en una sola cadena.
     cp a b/b || decir "ERROR"             # Sólo corre el segundo si el primero terminó con error (OR)
 ----
 
-## 6. Saber el resultado de una ejecución (errorlevel, donde 0 es sin error)
+== 6. Saber el resultado de una ejecución (errorlevel, donde 0 es sin error)
 
 [source,bash]
 ----
     cp a b/b ; echo $?     # $? es el nivel de error.  Si el archivo a o la carpeta b no existen, habrá error
 ----
 
-## 7. Especificar el errorlevel de un script
+== 7. Especificar el errorlevel de un script
 
 [source,bash]
 ----
@@ -171,7 +173,7 @@ todos los argumentos en una sola cadena.
                     # 255 como máximo, si se indica mas se calcula el módulo:  $varable % 256
 ----
 
-## 8. Usar variable locales (al script)
+== 8. Usar variable locales (al script)
 
 [source,bash]
 ----
@@ -182,7 +184,7 @@ todos los argumentos en una sola cadena.
     echo "El errorlevel en aquel punto del programa fué: $huboerror"
 ----
 
-## 9. Obtener la fecha actual en distintos formatos
+== 9. Obtener la fecha actual en distintos formatos
 
 [source,bash]
 ----
@@ -190,14 +192,14 @@ todos los argumentos en una sola cadena.
     man date       # para ver otros formatos
 ----
 
-## 10. Incluir la salida de un subcomando en el comando a correr con backticks:
+== 10. Incluir la salida de un subcomando en el comando a correr con backticks:
 
 [source,bash]
 ----
     echo "La fecha actual es: `date +"%-d del %-m de %Y"`"
 ----
 
-## 11. Generar número random
+== 11. Generar número random
 
 [source,bash]
 ----
@@ -208,7 +210,7 @@ todos los argumentos en una sola cadena.
     echo $(( ( $RANDOM$RANDOM % 10000000 ) ))    # Random de hasta 7 cifras (los ceros del cociente)
 ----
 
-## 12. Generar nombre de archivo temporal
+== 12. Generar nombre de archivo temporal
 
 [source,bash]
 ----
@@ -216,7 +218,7 @@ todos los argumentos en una sola cadena.
     echo $tmpfile           # Imprime algo como: /tmp/processing_201502162154089780.txt
 ----
 
-## 13. Redirigir salida a archivo
+== 13. Redirigir salida a archivo
 
 [source,bash]
 ----
@@ -229,14 +231,14 @@ todos los argumentos en una sola cadena.
     ls 2&>/dev/null     # Suprime los errores
 ----
 
-## 14. Redirigir entrada desde archivo
+== 14. Redirigir entrada desde archivo
 
 [source,bash]
 ----
     sort << listado.txt
 ----
 
-## 15. Redirigir salida a la entrada de otro comando
+== 15. Redirigir salida a la entrada de otro comando
 
 [source,bash]
 ----
@@ -245,7 +247,7 @@ todos los argumentos en una sola cadena.
     find . | less        # less is more
 ----
 
-## 16. HEREDOC
+== 16. HEREDOC
 
 [source,bash]
 ----
@@ -263,7 +265,7 @@ todos los argumentos en una sola cadena.
     EOF
 ----
 
-## 17. HEREDOC con redirección de salida
+== 17. HEREDOC con redirección de salida
 
 [source,bash]
 ----
@@ -276,7 +278,7 @@ todos los argumentos en una sola cadena.
     # No funciona con |.
 ----
 
-## 18. Evaluar expresiones con `$\(( &lt;expr&gt; ))` y con \``expr``
+== 18. Evaluar expresiones con `$\(( &lt;expr&gt; ))` y con \``expr``
 
 [source,bash]
 ----
@@ -295,7 +297,7 @@ todos los argumentos en una sola cadena.
     man expr                        # para ver otras expresiones
 ----
 
-## 19. Matemática con coma flotante (float)
+== 19. Matemática con coma flotante (float)
 
 [source,bash]
 ----
@@ -307,7 +309,7 @@ todos los argumentos en una sola cadena.
     man bc            # para ver formas de uso avanzadas del intérprete matemático
 ----
 
-## 20. Bloque IF THEN ELSE básico
+== 20. Bloque IF THEN ELSE básico
 
 [source,bash]
 ----
@@ -339,7 +341,7 @@ todos los argumentos en una sola cadena.
     fi
 ----
 
-## 21. Evaluar condiciones avanzadas en un bloque IF THEN ELSE
+== 21. Evaluar condiciones avanzadas en un bloque IF THEN ELSE
 
 [source,bash]
 ----
@@ -407,7 +409,7 @@ todos los argumentos en una sola cadena.
     man test                   # para ver otras posibles evaluaciones
 ----
 
-## 22. Descargar y ejecutar un script remoto
+== 22. Descargar y ejecutar un script remoto
 
 [source,bash]
 ----
@@ -418,14 +420,14 @@ todos los argumentos en una sola cadena.
     bash <(curl -s http://miserver.com/miscript.txt)
 ----
 
-## 23. Ejecutar un comando en una máquina remota via SSH
+== 23. Ejecutar un comando en una máquina remota via SSH
 
 [source,bash]
 ----
     ssh -t user@remote 'ls'
 ----
 
-## 24. Eliminar una subcadena del principio o final de otra
+== 24. Eliminar una subcadena del principio o final de otra
 
 [source,bash]
 ----
@@ -444,7 +446,7 @@ todos los argumentos en una sola cadena.
     echo $table
 ----
 
-## 25. Ejecutar otro script desde el script actual
+== 25. Ejecutar otro script desde el script actual
 
 Tres posibles maneras:
 
@@ -459,7 +461,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 (esta opción permite pasarle argumentos)
 
 
-## 26. Ejecutar un comando para varios archivos de una carpeta
+== 26. Ejecutar un comando para varios archivos de una carpeta
 
 [source,bash]
 ----
@@ -469,7 +471,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     done
 ----
 
-## 27. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
+== 27. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
 
 [source,bash]
 ----
@@ -495,7 +497,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     done
 ----
 
-## 28. Informar tiempo transcurrido en segundos
+== 28. Informar tiempo transcurrido en segundos
 
 [source,bash]
 ----
@@ -518,7 +520,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     echo "Job completed in $(($deploy_finished - $deploy_started)) seconds."
 ----
 
-## 29. Echo and log: Mostrar en consola pero también redirigir a archivo
+== 29. Echo and log: Mostrar en consola pero también redirigir a archivo
 
 [source,bash]
 ----
@@ -532,7 +534,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     echo_and_log    echo "Done"
 ----
 
-## 30. Copiar un path completo con Rsync
+== 30. Copiar un path completo con Rsync
 
 [source,bash]
 ----
