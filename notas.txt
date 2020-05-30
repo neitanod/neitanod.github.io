@@ -1,7 +1,6 @@
 = Páginas
 :showtitle:
 
-  - link:?shellscripting[Guía rápida de shell scripting]
   - Probar "Tmux copycat"
   - Poner Steve Vai en el pen drive del auto   ♫♫
   - Probar dwb web browser, ver como se configura (.dwbrc?)
