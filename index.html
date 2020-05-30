@@ -2,9 +2,12 @@
 <html>
   <head>
     <title>Notas</title>
+    <link rel="stylesheet" type="text/css" href="inc/fontawesome/css/all.min.css"/>
+    <link rel="stylesheet" type="text/css" href="inc/asciidoctor.css"/>
     <link rel="stylesheet" type="text/css" href="inc/notas.css"/>
     <script src="inc/jquery-2.1.1.min.js"></script>
     <script src="inc/markdown.min.js"></script>
+    <script src="inc/asciidoctor.min.js"></script>
     <link rel="icon" type="image/png" href="/favicons/favicon-128x128.png" sizes="128x128">
     <link rel="icon" type="image/png" href="/favicons/favicon-64x64.png" sizes="64x64">
     <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
@@ -12,8 +15,18 @@
     <script>
       jQuery(function(){
         var s = (location.href.split("?")[1]||'index');
+        var ad = false;
         s = s.includes('&')?s.substring(0, s.indexOf('&')):s;
-        $('#contents').load(s+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
+        s.includes('.ad')?ad=true:null;
+          if( ad ) {
+              // Use AsciiDoc format
+            $('#contents').load(s, function(){$('#contents').html(
+                Asciidoctor().convert( $('#contents').text() )
+            )});
+          } else {
+              // Use Markdown format
+              $('#contents').load(s+'.md', function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
+          }
       });
     </script>
   </head>
