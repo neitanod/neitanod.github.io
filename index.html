@@ -22,7 +22,15 @@
               // Use AsciiDoc format
             $('#contents').load(s+'.txt', function(){$('#contents').html(
                 Asciidoctor().convert( $('#contents').text() )
-            )});
+            )
+                    // Replace icons with FontAwesome compatible icon tags:
+                    .find(".icon")
+                    .replaceWith(
+                        function(e) {
+                            return '<i class="fa fa-'+$(this).text().replace(/[\[\]]+/g,"")+'"/>';
+                        }
+                    );
+            });
           } else {
               // Use Markdown format
               $('#contents').load(s, function(){$('#contents').html(markdown.toHTML($('#contents').text()))});

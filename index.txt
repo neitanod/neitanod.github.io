@@ -6,6 +6,6 @@
   - link:?notas[Notas]
   - link:?recursos[Recursos]
   - link:?asciidoc[AsciiDoc Cheatsheet]
-  - link:?markdown[Markdown Cheatsheet]
+  - link:?markdown.md[Markdown Cheatsheet]
 
 --

@@ -1,4 +1,0 @@
-# Recursos
-
-[Dieta] (?dieta)
-
