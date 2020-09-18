@@ -540,3 +540,21 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
 ----
     rsync -a  --exclude=".git" --exclude="node_modules" ${source_root}/ ${target_path}
 ----
+
+== {counter:index}. Capturar palabras de stdin
+
+[source,bash]
+----
+    y=$(echo $x | awk '{print $2}')
+    echo $y
+
+    #  echo $x display the value of x.
+    #  awk '{print $2}' prints the second field of the previously displayed x.
+    #  $(...) hold the output and let assign it to y.x
+----
+
+[source,bash]
+----
+    kill $(ps aux | grep program_name | grep -v grep | awk '{print $2}')
+    # Will kill program_name by ID (-v will exclude grep's process itself)
+----
