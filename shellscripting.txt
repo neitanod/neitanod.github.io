@@ -18,6 +18,10 @@ TIP: `#!/usr/bin/env bash` es más portable (env siempre está en el mismo lugar
 bash puede no estar en /bin) Sobre todo si en vez de bash se está tratando de
 encontrar otro intérprete como python o php, cuyas ubicaciones varían más
 
+[source,bash]
+----
+    #!/usr/bin/env bash
+----
 
 == {counter:index}. Pasar parámetros:
 
