@@ -101,7 +101,9 @@
             data: {data: $('#program').value}
         })
             .then( function(r) {
-                window.location.hash = r.data.key; } )
+                window.location.hash = r.data.key;
+                document.title = getFirstLine($('#program').value);
+            } )
     }
 
     function loadById() {
@@ -109,6 +111,7 @@
             let demos = ['13abb7e36025a5cfe7157a03fb29959c',   // Traductor al jeringozo
                 '6044d722ebbf3ecdf228393a33d4ed19'];  // Adivina el número secreto
             window.location.hash = "#"+demos[Math.floor(Math.random() * demos.length)];
+            document.title = getFirstLine(r.data);
         }
 
         if(window.location.hash) {     // si el URL tiene un hash, asumimos que es la key de los datos a recuperar
@@ -122,6 +125,7 @@
     }
 
     function getFirstLine(text) {
+        text = text.trim();
         var index = text.indexOf("\n");
         if (index === -1) index = undefined;
         return text.substring(0, index);
