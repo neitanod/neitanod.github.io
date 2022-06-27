@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <script src="axios.min.js"></script>
     <div id="screen">
-        <textarea spellcheck="false" id="program" onkeydown="event.keyCode == 27 ? run() : 0;"></textarea>
+        <pre contenteditable="true" id="program" onkeydown="event.keyCode == 27 ? run() : 0;"></pre>
         <br/>
         <br/>
         <!-- button onclick="run();" id="runner">RUN</button -->
@@ -98,11 +98,11 @@
         axios({
             url:"https://publish.ip1.cc",
             method:"POST",
-            data: {data: $('#program').value}
+            data: {data: $('#program').innerHTML}
         })
             .then( function(r) {
                 window.location.hash = r.data.key;
-                document.title = getFirstLine($('#program').value);
+                document.title = getFirstLine($('#program').innerText);
             } )
     }
 
@@ -118,8 +118,8 @@
             axios({ url: "https://publish.ip1.cc/storage/uploads/"+window.location.hash.substr(1)+".json" })  // recuperamos los datos
                 .then( function(r) {
                     console.log(r);
-                    $('#program').value = r.data;
-                    document.title = getFirstLine(r.data);
+                    $('#program').innerHTML = r.data;
+                    document.title = getFirstLine($('#program').innerText);
                 } )
         }
     }
