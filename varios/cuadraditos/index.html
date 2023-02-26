@@ -1,0 +1,173 @@
+<html>
+    <head>
+        <meta
+            name='viewport'
+            content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+        />
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div>
+                n : <input type="text" v-model="n"/> <button @click="show">Mostrar</button>
+            </div>
+            <div>
+                velocidad: <input type="range" min="1" max="500" v-model="speed"/>
+            </div>
+            <div class="center">
+                <table class="cuadricula">
+                    <tbody>
+                        <tr v-for="x in parseFloat(n)">
+                            <td v-for="y in parseFloat(n)" :class="lightUp(x,y)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                {{ currCount }}
+            </div>
+        </div>
+    </body>
+    <div class="templates" style="display:none">
+        <template id=>
+        </template>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                n: 3,
+                speed: 200,
+                showthis: [],
+                currLight: [],
+                currCount: 0,
+                nextStep: null
+            },
+            methods: {
+                lightUp(col, row) {
+                    if ( !this.currLight ) {
+                        return "";
+                    }
+                    var w = this.currLight[0];
+                    var h = this.currLight[1];
+                    var c = this.currLight[2];
+                    var r = this.currLight[3];
+
+                    if (
+                        col >= c &&
+                        col <= c+w-1 &&
+                        row >= r &&
+                        row <= r+h-1
+                    ) {
+                        return "lightup-"+(h%3);
+                    } else {
+                        return "";
+                    }
+                },
+                show() {
+                    if (this.nextStep) clearTimeout(this.nextStep);
+                    this.showthis = [];
+                    this.currCount = 0;
+                    var self = this;
+                    var col = 0;
+                    var row = 0;
+                    var width = 0;
+                    var height = 0;
+                    for(width = 1; width <= this.n; width++) {
+                        for(height = 1; height <= this.n; height++) {
+                            for(col = 1; col <= (this.n - width + 1); col++) {
+                                for(row = 1; row <= (this.n - height + 1); row++) {
+                                    self.showthis.push([width, height, col, row]);
+                                }
+                            }
+                        }
+                    }
+                    self.showNext();
+                },
+                showNext() {
+                    this.currCount++;
+                    this.currLight = this.showthis.shift();
+                    if ( this.showthis.length > 0 ) {
+                        this.nextStep = setTimeout(this.showNext,500-this.speed);
+                    }
+                }
+            }
+        });
+    </script>
+    <style>
+body {
+    text-align: center;
+    font-family: Arial;
+    font-size: 30px;
+}
+input {
+    display: inline-block;
+    width: 130px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+button:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+button {
+    margin-bottom: .25rem!important;
+    margin-top: .25rem!important;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.center {
+    margin: auto;
+    display: inline-block;
+}
+.cuadricula {
+    border-collapse: collapse;
+    margin: 10px;
+}
+.cuadricula td {
+    width: 22px;
+    height: 35px;
+    border: 1px solid gray;
+    padding: 6px;
+    font-family: Arial;
+    font-size: 10px;
+    text-align: center;
+}
+.lightup {
+    background-color: red;
+}
+.lightup-0 {
+    background-color: orange;
+}
+.lightup-1 {
+    background-color: green;
+}
+.lightup-2 {
+    background-color: blue;
+}
+
+    </style>
+</html>
