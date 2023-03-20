@@ -397,6 +397,7 @@ todos los argumentos en una sola cadena.
     FILE1 -ot FILE2            # FILE1 is older than FILE2
                                #
     -e FILE                    # FILE exists
+    ! -e FILE                  # FILE does not exist
                                #
     -f FILE                    # FILE exists and is a regular file
     -d FILE                    # FILE exists and is a directory
