@@ -1,14 +1,4 @@
 <html>
-<<<<<<< Updated upstream
-  <body onclick="focusProgram()">
-    <meta charset="utf-8">
-    <script src="axios.min.js"></script>
-    <div id="screen">
-        <div contenteditable="true" spellcheck="false" id="program" onkeydown="event.keyCode == 27 ? run() : 0;"></div>
-        <br/>
-        <br/>
-        <!-- button onclick="run();" id="runner">RUN</button -->
-=======
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   </head>
@@ -19,7 +9,6 @@
         <textarea spellcheck="false" id="text"></textarea>
         <br/>
         <br/>
->>>>>>> Stashed changes
         <button onclick="save();" id="saver">SAVE</button>
         <pre id="console"></pre>
         <div id="input-box">
@@ -27,109 +16,19 @@
         </div>
     </div>
     <script>
-<<<<<<< Updated upstream
-        function $(selector) { return document.querySelector(selector); }
-
-        function $$(selector) { return document.querySelectorAll(selector); }
-
-        async function run(){
-            try {
-                var program = $("#program").value;
-                $("#screen").classList.add("running");
-                await eval( "(async () => {" + program + "})()" );
-            }
-            catch (err) {
-                printline("ERROR: " + err);
-            } finally {
-                await key();
-                $("#screen").classList.remove("running");
-                $("#program").focus();
-            }
-        }
-
-        function print(message) {
-            $('#console').innerText += message;
-        }
-
-        function printline(message) {
-            if( message === undefined ) message = "";
-            $('#console').innerText += message + "\n";
-        }
-
-        async function input() {
-            var ib = $('#input-box');
-            var i = $('#input');
-            i.value = "";
-            ib.classList.add("show");
-            i.focus();
-            return new Promise(
-                (resolve, reject) => {
-                    var listener = function(e) {
-                        if(e.keyCode === 13) {
-                            ib.classList.remove("show");
-                            i.removeEventListener("keydown", listener);
-                            setTimeout(()=>{printline("> "+i.value); resolve(i.value);}, 0);
-                        }
-                        if(e.keyCode === 67 && e.getModifierState("Control")) {
-                            ib.classList.remove("show");
-                            i.removeEventListener("keydown", listener);
-                            setTimeout(()=>{reject("Cancelled by the user.");}, 0);
-                        }
-                    };
-                    i.addEventListener("keydown", listener);
-                }
-            );
-        }
-
-        async function key() {
-            return new Promise(
-                resolve => {
-                    var listener = function(e) {
-                        $('body').removeEventListener("keydown", listener);
-                        setTimeout(()=>resolve(getChar(e)), 0);
-                    };
-                    $('body').addEventListener("keydown", listener);
-                }
-            );
-        }
-
-    function clear() {
-        $('#console').innerText = "";
-    }
-
-    function getChar(e){
-        if(e.keyCode!=16){ // If the pressed key is anything other than SHIFT
-            var c = String.fromCharCode(e.keyCode);
-            if (e.shiftKey){
-                return e.getModifierState("CapsLock") ? c.toLowerCase(c) : c ;
-            } else {
-                return e.getModifierState("CapsLock") ? c : c.toLowerCase(c) ;
-            }
-        }
-    }
-=======
     function $(selector) { return document.querySelector(selector); }
 
     function $$(selector) { return document.querySelectorAll(selector); }
->>>>>>> Stashed changes
 
     function save() {
         axios({
             url:"https://publish.ip1.cc",
             method:"POST",
-<<<<<<< Updated upstream
-            data: {data: $('#program').innerHTML}
-        })
-            .then( function(r) {
-                window.location.hash = r.data.key;
-                document.title = getFirstLine($('#program').innerText);
-=======
             data: {data: $('#text').value}
         })
             .then( function(r) {
                 window.location.hash = r.data.key;
                 document.title = getFirstLine($('#text').innerText);
->>>>>>> Stashed changes
             } )
     }
 
@@ -145,13 +44,8 @@
             axios({ url: "https://publish.ip1.cc/storage/uploads/"+window.location.hash.substr(1)+".json" })  // recuperamos los datos
                 .then( function(r) {
                     console.log(r);
-<<<<<<< Updated upstream
-                    $('#program').innerHTML = r.data;
-                    document.title = getFirstLine($('#program').innerText);
-=======
                     $('#text').innerHTML = r.data;
                     document.title = getFirstLine($('#text').innerText);
->>>>>>> Stashed changes
                 } )
         }
     }
@@ -163,37 +57,19 @@
         return text.substring(0, index);
     }
 
-<<<<<<< Updated upstream
-    function focusProgram() {
-        if($("#screen").classList.contains('running')) {
-            console.log("focusing program");
-            $("#input").focus();
-        }
-    }
-
-=======
->>>>>>> Stashed changes
     document.addEventListener("DOMContentLoaded", loadById);
 
     </script>
     <style>
         #screen {
             min-height: 80%;
-<<<<<<< Updated upstream
-            padding: 30px;
-=======
             padding: 10px;
->>>>>>> Stashed changes
         }
         #screen.running {
             background-color: black;
             color: white;
         }
-<<<<<<< Updated upstream
-        #screen.running #program,
-=======
         #screen.running #text,
->>>>>>> Stashed changes
         #screen.running #runner,
         #screen.running #saver
             {
@@ -203,27 +79,16 @@
             background-color: black;
             color: white;
         }
-<<<<<<< Updated upstream
-        #program {
-            width: 90%;
-            height: 80%;
-=======
         #text {
             width: 100%;
             min-height: 85%;
->>>>>>> Stashed changes
             padding: 5px;
             border: none;
 
             display: block;
             font-family: monospace;
-            white-space: pre;
-<<<<<<< Updated upstream
-            margin: 1em 0px;
-            overflow: auto;
-=======
+            white-space: pre-wrap;
             outline: none;
->>>>>>> Stashed changes
         }
         #input-box {
             display: none;
