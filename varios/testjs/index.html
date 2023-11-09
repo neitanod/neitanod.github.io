@@ -100,7 +100,7 @@ function save() {
 }
 function buildBookmarklet(key){
     let url = "https://publish.ip1.cc/storage/uploads/"+ key + ".json";
-    let script = "javascript:window.slguri=  '"+url+"'  ;let el=document.createElement('script');el.src=window.slguri;document.body.appendChild(el);";
+            let script = "javascript:(function(){ let uri=  '"+url+"'  ;let el=document.createElement('script');el.src=window.slguri;document.body.appendChild(el);})()";
     document.getElementById("bookmarklet").setAttribute('href', script);
 }
 function loadById() {
@@ -111,7 +111,7 @@ function loadById() {
     }
 
     if(window.location.hash) {     // si el URL tiene un hash, asumimos que es la key de los datos a recuperar
-        buildBookmarklet(window.location.hash);
+        buildBookmarklet(window.location.hash.substr(1));
         axios({ url: "https://publish.ip1.cc/storage/uploads/"+window.location.hash.substr(1)+".json" })  // recuperamos los datos
             .then( function(r) {
                 console.log(r);
