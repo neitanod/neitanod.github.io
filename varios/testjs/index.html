@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <script src="axios.min.js"></script>
     <div id="screen">
+        <input type="text" id="title" value=""/>
         <textarea id="program" onkeydown="event.keyCode == 27 ? run() : 0;">
         </textarea>
         <br/>
@@ -101,7 +102,7 @@ function save() {
 function buildBookmarklet(key){
     let url = "https://publish.ip1.cc/storage/uploads/"+ key + ".json";
     let script = "javascript:(function(){ let uri='"+url+"';let el=document.createElement('script');el.src=uri;document.body.appendChild(el);})()";
-    document.getElementById("bookmarklet").setAttribute('href', script);
+    document.getElementById("bookmarklet").setAttribute('href', script).innerText(document.getElementById('title').value);
 }
 function loadById() {
     if(!window.location.hash) {
