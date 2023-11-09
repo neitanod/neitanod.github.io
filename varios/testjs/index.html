@@ -3,13 +3,15 @@
     <meta charset="utf-8">
     <script src="axios.min.js"></script>
     <div id="screen">
-        <input type="text" id="title" value=""/><br/><br/>
         <textarea id="program" onkeydown="event.keyCode == 27 ? run() : 0;">
         </textarea>
         <br/>
         <br/>
         <button onclick="run();" id="runner">RUN</button>
         <button onclick="save();" id="saver">SAVE</button>
+        <br/>
+        <br/>
+        Title for this bookmarklet: <input type="text" id="title" value=""/><br/>
         <a href="" id="bookmarklet">Bookmarklet</button>
         <pre id="console"></pre>
         <div id="input-box">
