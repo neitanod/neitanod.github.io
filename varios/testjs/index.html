@@ -104,7 +104,7 @@ function buildBookmarklet(key){
     let script = "javascript:(function(){ let uri='"+url+"';let el=document.createElement('script');el.src=uri;document.body.appendChild(el);})()";
     let bm = document.getElementById("bookmarklet");
     bm.setAttribute('href', script);
-    bm.innerText(document.getElementById('title').value);
+    bm.innerText = document.getElementById('title').value;
 }
 function loadById() {
     if(!window.location.hash) {
