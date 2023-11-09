@@ -100,7 +100,7 @@ function save() {
 }
 function buildBookmarklet(key){
     let url = "https://publish.ip1.cc/storage/uploads/"+ key + ".json";
-            let script = "javascript:(function(){ let uri=  '"+url+"'  ;let el=document.createElement('script');el.src=window.slguri;document.body.appendChild(el);})()";
+    let script = "javascript:(function(){ let uri='"+url+"';let el=document.createElement('script');el.src=uri;document.body.appendChild(el);})()";
     document.getElementById("bookmarklet").setAttribute('href', script);
 }
 function loadById() {
