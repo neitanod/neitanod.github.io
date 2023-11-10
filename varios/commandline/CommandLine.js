@@ -6,9 +6,10 @@ CommandLineConstructor = function() {
     c.init();
     c.defineCommand(":hi",()=>{ alert("Hey there!"); });
     c.defineAlias(":hey",":hi");
-    c.defineCommand(":alert",(text, title)=>{ alert(text); console.log(title, text)});
-
-}
+    c.defineCommand(":alert",(text, title)=>{
+       console.log(title, text);
+       alert(text);});
+    }
 
 try { let CommandLine = {}; } catch(e) {}
 
@@ -157,4 +158,3 @@ CommandLine = function() {
 }
 
 CommandLineConstructor();
-
