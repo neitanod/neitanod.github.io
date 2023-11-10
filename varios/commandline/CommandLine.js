@@ -1,16 +1,28 @@
-class CommandLine {
-    constructor() {
-        this.commandDiv = document.createElement('div');
-    }
+try { let CommandLineConstructor = {}; } catch(e) {}
+CommandLineConstructor = function() {
 
-    init() {
+    window.SLGCommandLine = new CommandLine();
+    let c = window.SLGCommandLine;
+    c.init();
+    c.defineCommand(":hi",()=>{ alert("Hey there!"); });
+    c.defineAlias(":hey",":hi");
+    c.defineCommand(":alert",(text, title)=>{ alert(text); console.log(title, text)});
+
+}
+
+try { let CommandLine = {}; } catch(e) {}
+
+CommandLine = function() {
+
+    this.init = function() {
+        this.commandDiv = document.createElement('div');
         this.callbacks = [];
         this.aliases = [];
         this.setupDiv();
         this.setupKeyBindings();
     }
 
-    setupDiv() {
+    this.setupDiv = function() {
         this.commandDiv.style.position = 'fixed';
         this.commandDiv.style.bottom = '0';
         this.commandDiv.style.left = '0';
@@ -29,7 +41,7 @@ class CommandLine {
         document.body.appendChild(this.commandDiv);
     }
 
-    setupKeyBindings() {
+    this.setupKeyBindings = function() {
         document.addEventListener('keydown', (event) => {
             if (event.key === ':') {
                 if(
@@ -46,57 +58,103 @@ class CommandLine {
         });
     }
 
-    clean() {
+    this.clean = function() {
         this.commandDiv.textContent = '';
     }
 
-    show() {
+    this.show = function() {
         this.commandDiv.style.display = 'block';
     }
 
-    hide() {
+    this.hide = function() {
         this.commandDiv.style.display = 'none';
     }
 
-    focus() {
+    this.focus = function() {
         this.commandDiv.focus();
         // this.commandDiv.setSelectionRange(this.commandDiv.textContent.length,this.commandDiv.textContent.length);
     }
 
-    defineCommand( command, callback ) {
+    this.defineCommand = function( command, callback ) {
         this.callbacks[command] = callback;
     }
 
-    defineAlias( alias, command ) {
+    this.defineAlias = function( alias, command ) {
         this.aliases[alias] = command;
     }
 
-    handleKeydown(event) {
+    this.handleKeydown = function(event) {
         let self = this;
         // event.preventDefault();
         // event.stopPropagation();
         if (event.key === 'Escape') {
             self.hide();
         } else if (event.key === 'Enter') {
+            self.addToHistory();
             self.processCommand();
             self.hide();
+        } else if (event.key === 'ArrowUp') {
+            self.historyBack();
         }
-        // console.log(event);
+        console.log(event);
     }
 
-    processCommand() {
+    this.addToHistory = function() {
+        this.lastCommand = this.commandDiv.textContent;
+    }
+
+    this.historyBack = function() {
+        this.commandDiv.textContent = this.lastCommand;
+    }
+
+    this.processCommand = function() {
         let self = this;
-        let command = self.commandDiv.textContent;
+        let args = this.parseArguments(self.commandDiv.textContent);
+        let command = args.shift();
         if( self.aliases[command] ) {
             command = self.aliases[command];
         }
         if( self.callbacks[command] ) {
-            setTimeout( self.callbacks[command] , 0);
+            setTimeout( self.callbacks[command](...args) , 0);
         }
     }
+
+
+    this.parseArguments = function(line) {
+        const arguments = [];
+        let current = '';
+        let quoted = false;
+        let qouteType = null;
+
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+
+            if (char === '\\') {
+                current += line[++i];
+            } else if ((char === '"' || char === "'") && !quoted) {
+                quoted = true;
+                qouteType = char;
+            } else if (char === qouteType && quoted) {
+                quoted = false;
+                qouteType = null;
+            } else if (char === ' ' && !quoted) {
+                if (current.length > 0) {
+                    arguments.push(current);
+                    current = '';
+                }
+            } else {
+                current += char;
+            }
+        }
+
+        if (current.length > 0) {
+            arguments.push(current);
+        }
+
+        return arguments;
+    }
+
 }
 
-let command = new CommandLine();
-command.init();
-command.defineCommand(":hi",()=>{ alert("Hey there!"); });
-command.defineAlias(":hey",":hi");
+CommandLineConstructor();
+
