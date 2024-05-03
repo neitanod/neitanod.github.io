@@ -1,7 +1,11 @@
-= Guia rápida de Docker (AKA Docker cheatsheet)
+= Guia rápida de Docker
+:subtitle: (AKA Docker cheatsheet)
 :showtitle:
 :icons: font
 :toc-title: Contenidos
+
+[small]#_ {subtitle} _#
+
 :toc:
 
 
