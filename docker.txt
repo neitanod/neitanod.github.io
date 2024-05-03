@@ -3,8 +3,7 @@
 :showtitle:
 :icons: font
 :toc-title: Contenidos
-
-[small]#_ {subtitle} _#
+[small]{subtitle}
 
 :toc:
 
