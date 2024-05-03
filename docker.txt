@@ -19,6 +19,16 @@ NOTE: You probably need to run all of these with sudo.
 ----
 
 
+
+== {counter:index}. Ejecutar algo dentro del contenedor:
+
+[source,bash]
+----
+    docker exec -it my_container bash -c "mysql -u root -psome_secret_pass"
+----
+
+
+
 == {counter:index}. Renombrar contenedores:
 
 [source,bash]
