@@ -1,19 +1,95 @@
 try { let CommandLineConstructor = {}; } catch(e) {}
 CommandLineConstructor = function() {
 
+    if(window.SLGCommandLine) {
+      window.SLGCommandLine.removeKeyBindings();
+    }
     window.SLGCommandLine = new CommandLine();
     let c = window.SLGCommandLine;
     c.init();
-    c.defineCommand(":hi",()=>{ alert("Hey there!"); });
+
+
+
+    c.defineCommand(":st",()=>{ addStreaming() });
+    c.defineCommand(":nost",()=>{ removeStreaming() });
+    c.defineCommand(":r",()=>{ openRoom() });
+
+
+
+
+
+    c.defineCommand(":help",()=>{ SLGCommandLine.listCommands(); });
+    c.defineCommand(":history",()=>{ console.log(SLGCommandLine.history); });
+    c.defineCommand(":hi",()=>{ alert("Hey!"); });
     c.defineAlias(":hey",":hi");
     c.defineCommand(":alert",(text, title)=>{
        console.log(title, text);
-       alert(text);});
-    }
+       alert(text);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function firstIndex(object) {
+      const keys = Object.keys(object);
+      return keys.length > 0 ? keys[0] : null;
+}
+function addStreaming() {
+  // openRoom();
+  lc.getLotteryClient().emitEvent("streaming", 1)
+}
+function removeStreaming() {
+  // openRoom();
+  lc.getLotteryClient().emitEvent("streaming", 0)
+}
+function openRoom(room_id) {
+  lc.getLotteryClient().handleOpenRoom(room_id || 106);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 try { let CommandLine = {}; } catch(e) {}
 
 CommandLine = function() {
+    let self = this;
 
     this.init = function() {
         this.commandDiv = document.createElement('div');
@@ -21,6 +97,10 @@ CommandLine = function() {
         this.aliases = [];
         this.setupDiv();
         this.setupKeyBindings();
+        this.history = [];
+        this.historyIndex = 0;
+        let history = JSON.parse(localStorage.getItem("SLGVim_history"));
+        if( history ) this.history = history;
     }
 
     this.setupDiv = function() {
@@ -36,6 +116,7 @@ CommandLine = function() {
         this.commandDiv.style.padding = '5px';
         this.commandDiv.style.opacity = '0.7';
         this.commandDiv.style.fontSize = '20px';
+        this.commandDiv.style.fontFamily = 'monospace';
         this.commandDiv.textContent = '';
         this.commandDiv.contentEditable = true;
         this.commandDiv.addEventListener('keydown', (ev)=>{ this.handleKeydown(ev) } );
@@ -43,20 +124,30 @@ CommandLine = function() {
     }
 
     this.setupKeyBindings = function() {
-        document.addEventListener('keydown', (event) => {
-            if (event.key === ':') {
-                if(
-                    event.currentTarget.contentEditable ||
-                    event.currentTarget.tagName == "TEXTAREA" ||
-                    event.currentTarget.tagName == "INPUT"
-                ) {
-                    return;
-                }
-                this.clean();
-                this.show();
-                this.focus();
+        document.addEventListener('keydown', this.keyHandler);
+    }
+
+    this.removeKeyBindings = function() {
+        document.removeEventListener('keydown', this.keyHandler);
+    }
+
+    this.keyHandler = function(event) {
+        if (event.key === ':') {
+            // console.log(event);
+            if(
+                event.currentTarget.isContentEditable ||
+                event.currentTarget.tagName == "TEXTAREA" ||
+                event.currentTarget.tagName == "INPUT" ||
+                event.target.idContentEditable ||
+                event.target.tagName == "TEXTAREA" ||
+                event.target.tagName == "INPUT"
+            ) {
+                return;
             }
-        });
+            self.clean();
+            self.show();
+            self.focus();
+        }
     }
 
     this.clean = function() {
@@ -73,7 +164,7 @@ CommandLine = function() {
 
     this.focus = function() {
         this.commandDiv.focus();
-        // this.commandDiv.setSelectionRange(this.commandDiv.textContent.length,this.commandDiv.textContent.length);
+        // this.moveCursorToEnd(this.commandDiv);
     }
 
     this.defineCommand = function( command, callback ) {
@@ -84,6 +175,11 @@ CommandLine = function() {
         this.aliases[alias] = command;
     }
 
+    this.listCommands = function( ) {
+        console.log(Object.keys(this.callbacks));
+        console.log(Object.keys(this.aliases));
+    }
+
     this.handleKeydown = function(event) {
         let self = this;
         // event.preventDefault();
@@ -92,20 +188,64 @@ CommandLine = function() {
             self.hide();
         } else if (event.key === 'Enter') {
             self.addToHistory();
-            self.processCommand();
             self.hide();
+            setTimeout(()=>{self.processCommand();}, 0);
         } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
             self.historyBack();
+        } else if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            self.historyForward();
         }
-        console.log(event);
+        //console.log(event);
     }
 
     this.addToHistory = function() {
         this.lastCommand = this.commandDiv.textContent;
+        let history = JSON.parse(localStorage.getItem("SLGVim_history"));
+        if( history ) this.history = history;
+
+        let index = this.history.indexOf(this.lastCommand);
+        if (index !== -1) {
+            // Remove the existing entry
+            this.history.splice(index, 1);
+        }
+        this.history.push(this.lastCommand);
+        localStorage.setItem("SLGVim_history", JSON.stringify(this.history));
+        this.historyIndex = 0;
     }
 
     this.historyBack = function() {
-        this.commandDiv.textContent = this.lastCommand;
+        this.historyIndex++;
+        if(this.historyIndex > this.history.length){
+          this.historyIndex = this.history.length;
+        }
+        this.commandDiv.textContent = this.history[this.history.length-this.historyIndex];
+        this.moveCursorToEnd(this.commandDiv);
+    }
+
+    this.historyForward = function() {
+        this.historyIndex--;
+        if(this.historyIndex < 0){
+          this.historyIndex = 0;
+        }
+        this.commandDiv.textContent = this.history[this.history.length-this.historyIndex];
+        this.moveCursorToEnd(this.commandDiv);
+    }
+
+    this.moveCursorToEnd = function(element) {
+        if (element.tagName === 'TEXTAREA') {
+            element.focus();
+            const length = element.value.length;
+            elemento.setSelectionRange(length, length);
+        } else if (element.isContentEditable) {
+            let range = document.createRange();
+            let selection = window.getSelection();
+            range.selectNodeContents(element);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
     }
 
     this.processCommand = function() {
@@ -119,7 +259,6 @@ CommandLine = function() {
             setTimeout( self.callbacks[command](...args) , 0);
         }
     }
-
 
     this.parseArguments = function(line) {
         const arguments = [];
@@ -157,4 +296,4 @@ CommandLine = function() {
 
 }
 
-CommandLineConstructor();
+document.addEventListener('DOMContentLoaded', () => CommandLineConstructor());

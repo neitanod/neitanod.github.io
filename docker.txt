@@ -1,0 +1,24 @@
+= Guia rápida de Docker
+== AKA Docker cheatsheet
+:showtitle:
+:icons: font
+:toc-title: Contenidos
+:toc:
+
+== {counter:index}. Listar contenedores:
+
+[source,bash]
+----
+    docker ps       # Running containers
+    docker ps -a    # All containers including stopped ones
+----
+
+NOTE: You probably need to run all of these with sudo.
+
+== {counter:index}. Renombrar contenedores:
+
+[source,bash]
+----
+    docker rename old_name new_name
+----
+
