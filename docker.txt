@@ -5,7 +5,7 @@
 :toc-title: Contenidos
 :toc:
 
-=== {subtitle}
+[small] {subtitle}
 
 == {counter:index}. Listar contenedores:
 
