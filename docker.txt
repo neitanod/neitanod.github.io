@@ -11,8 +11,11 @@ NOTE: You probably need to run all of these with sudo.
 
 [source,bash]
 ----
-    docker ps       # Running containers
-    docker ps -a    # All containers including stopped ones
+    docker ps                                     # Running containers
+    docker ps -a                                  # All containers including stopped ones
+    docker ps -a --filter "name=local_mariadb"    # Filtered by name
+    docker ps -a --filter "name=local_*"          # Filteres by name with wildcard, Golang style
+    docker ps -a | grep "pattern"                 # Filtering with grep
 ----
 
 
