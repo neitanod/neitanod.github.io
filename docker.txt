@@ -7,13 +7,14 @@
 
 == {counter:index}. Listar contenedores:
 
+NOTE: You probably need to run all of these with sudo.
+
 [source,bash]
 ----
     docker ps       # Running containers
     docker ps -a    # All containers including stopped ones
 ----
 
-NOTE: You probably need to run all of these with sudo.
 
 == {counter:index}. Renombrar contenedores:
 
