@@ -3,9 +3,9 @@
 :showtitle:
 :icons: font
 :toc-title: Contenidos
-=== {subtitle}
 :toc:
 
+=== {subtitle}
 
 == {counter:index}. Listar contenedores:
 
