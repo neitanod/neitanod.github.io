@@ -151,6 +151,28 @@ todos los argumentos en una sola cadena.
     cd "$(dirname "$0")"
 ----
 
+== {counter:index}. Obtener el nombre del script:
+
+[source,bash]
+----
+    SCRIPT_NAME=$(basename "$0")
+    echo $SCRIPT_NAME
+----
+
+[source,bash]
+----
+    echo #!/bin/bash
+    if [ $# -eq 0 ]    # $# contiene la cantidad de argumentos recibidos
+    then
+       # Si es 0 imprimo la ayuda, mostrando el nombre del script.
+
+       echo Usage:    $(basename "$0") "<hostname>"
+       echo
+       echo "      will do something with hostname"
+       exit 1
+    fi
+----
+
 == {counter:index}. Concatenar ejecuciones:
 
 [source,bash]
