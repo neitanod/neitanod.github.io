@@ -585,7 +585,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     done
 ----
 
-== {counter:index}. Eliminar viejos builds (elimina las primeras subcarpetas de una carpet dejando sólo N carpetas sin borrar)
+== {counter:index}. Eliminar viejos builds (elimina las primeras subcarpetas de una carpeta dejando sólo N carpetas sin borrar)
 
 [source,bash]
 ----
