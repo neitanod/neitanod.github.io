@@ -673,7 +673,7 @@ La más usada, sin embargo, es simplemente ejecutar `/bin/bash /path/to/script;`
     # Will kill program_name by ID (-v will exclude grep's process itself)
 ----
 
-== Quitar espacios y otros caracteres del principio y final de una cadena (trim)
+== {counter:index}. Quitar espacios y otros caracteres del principio y final de una cadena (trim)
 
 [source,bash]
 ----
