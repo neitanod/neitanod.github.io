@@ -224,7 +224,13 @@ NOTE: Es más robusto que simplemente `script_dir="$(dirname "$0")"` (que no res
     fi
 
     if eval_arg "--ding"; then     # Evaluar con eval_arg
-        paplay "$script_dir/lib/ding.mp3"
+        if ! command -v paplay &> /dev/null; then
+            echo "Warning: 'paplay' no está instalado." >&2
+            echo "Puedes instalarlo ejecutando:" >&2
+            echo "  sudo apt install pulseaudio-utils" >&2
+        else
+            paplay "$script_dir/lib/ding.mp3"
+        fi
     fi
 
     echo $(get_arg "--message" "Hello World!")
