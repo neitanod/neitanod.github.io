@@ -143,6 +143,13 @@ todos los argumentos en una sola cadena.
     done
 ----
 
+== {counter:index}. Imprimir a stderr
+
+[source,bash]
+----
+    echo "Error message" >&2
+----
+
 == {counter:index}. Recibir optativamente el input mediante un pipe (stdin)
 
 [source,bash]
@@ -199,15 +206,28 @@ NOTE: Es más robusto que simplemente `script_dir="$(dirname "$0")"` (que no res
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     source "$script_dir/my_lib/parse-args"
     source "$script_dir/my_lib/errors"
-    source "$script_dir/my_lib/mysql"
 
     prepare_boolean_arg "--help" "-h" "Show this help and exit"
     prepare_boolean_arg "--ding" "-d" "Play ding sound"
+    prepare_arg "--message" "-m" "Especify message (default: \"Hello World!\")"
+    prepare_arg "--error" "-e" "Especify error message"
 
     parse_args "$@"
+
     show_help_and_exit_if_requested "$(basename $0) notice [options] [content]"
 
-    play_sound=$(get_arg "--ding")
+    error_message=$(get_arg "--error")
+
+    if [[ -n "$error_message" ]]; then
+        # print to stderr
+        echo $error_message >&2
+    fi
+
+    if eval_arg "--ding"; then     # Evaluar con eval_arg
+        paplay "$script_dir/lib/ding.mp3"
+    fi
+
+    echo $(get_arg "--message" "Hello World!")
 
     # etc.
 ----
