@@ -143,12 +143,73 @@ todos los argumentos en una sola cadena.
     done
 ----
 
+== {counter:index}. Recibir optativamente el input mediante un pipe (stdin)
+
+[source,bash]
+----
+    #!/bin/bash
+
+    if [[ "$1" == "--stdin" ]]  # mantengo esta parte separada para manejarla como mejor convenga
+      then
+        use_stdin=true
+    fi
+
+    input=$([[ "$use_stdin" == true ]] && cat || echo "$1")
+
+    echo "Input: [" $input "]"
+----
+
+Ejemplo de uso:
+
+[source,bash]
+----
+    $ echo "Hola desde stdin" | ./script.sh --stdin
+    Input: [Hola desde stdin]
+
+    ./script.sh "Texto directo"
+    Input: [Texto directo]
+
+    ./script.sh
+    Input: []
+----
+
 == {counter:index}. Ejecutar en la carpeta del script:
 
 [source,bash]
 ----
     #!/bin/bash
     cd "$(dirname "$0")"
+----
+
+== {counter:index}. Obtener la carpeta del script:
+
+[source,bash]
+----
+    #!/bin/bash
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+----
+
+NOTE: Es más robusto que simplemente `script_dir="$(dirname "$0")"` (que no resuelve symlinks ni sourced scripts y además podría devolver paths relativos).
+
+== {counter:index}. Cargar funciones de mi librería
+
+[source,bash]
+----
+    #!/bin/bash
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$script_dir/my_lib/parse-args"
+    source "$script_dir/my_lib/errors"
+    source "$script_dir/my_lib/mysql"
+
+    prepare_boolean_arg "--help" "-h" "Show this help and exit"
+    prepare_boolean_arg "--ding" "-d" "Play ding sound"
+
+    parse_args "$@"
+    show_help_and_exit_if_requested "$(basename $0) notice [options] [content]"
+
+    play_sound=$(get_arg "--ding")
+
+    # etc.
 ----
 
 == {counter:index}. Obtener el nombre del script:
@@ -193,10 +254,36 @@ todos los argumentos en una sola cadena.
 
 [source,bash]
 ----
-    exit 10     # termina el script con errorlevel 10
+    exit 10         # termina el script con errorlevel 10
     variable=5
     exit $variable  # termina el script con el valor de $variable como errorlevel
                     # 255 como máximo, si se indica mas se calcula el módulo:  $varable % 256
+----
+
+== {counter:index}. Abortar ante el fallo de un comando ejecutado
+
+[source,bash]
+----
+    exit_on_error() {
+        if [ $? -ne 0 ]; then
+            echo "Error: $1" >&2
+            exit 1  # Aborta todo el script
+        fi
+    }
+----
+
+Se usa así:
+
+[source,bash]
+----
+    comando_que_puede_fallar
+    exit_on_error "Falló el comando"
+
+    ls /ruta/que/existe
+    exit_on_error "No se pudo listar /ruta/que/existe"
+
+    ls /ruta/que/no/existe
+    exit_on_error "No se pudo listar /ruta/que/no/existe";
 ----
 
 == {counter:index}. Usar variable locales (al script)
