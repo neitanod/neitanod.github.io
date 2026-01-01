@@ -19,8 +19,44 @@
         var s = (location.href.split("#")[0]||location.href);
         s = (s.split("?")[1]||'index');
         var md = false;
+        var isRemote = false;
         s = s.includes('&')?s.substring(0, s.indexOf('&')):s;
-        s.includes('.md')?md=true:null;
+
+        // Check if it's a remote URL
+        if(s.startsWith('http://') || s.startsWith('https://')) {
+          isRemote = true;
+          md = s.endsWith('.md');
+        } else {
+          s.includes('.md')?md=true:null;
+        }
+
+        if(isRemote) {
+          // Fetch remote URL
+          fetch(s)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.text();
+            })
+            .then(content => {
+              if(md) {
+                // Use Markdown format
+                $('#contents').html(markdown.toHTML(content));
+              } else {
+                // Use AsciiDoc format
+                $('#contents').html(Asciidoctor().convert(content))
+                  .find("span.icon")
+                  .replaceWith(function(e) {
+                    return '<i class="fa fa-'+$(this).text().replace(/[\[\]]+/g,"")+'"/>';
+                  });
+              }
+            })
+            .catch(error => {
+              $('#contents').html('<h1>Error loading remote content</h1><p>Could not load: ' + s + '</p><p>Error: ' + error.message + '</p><p>Note: This may be a CORS issue. The remote server must allow cross-origin requests.</p>');
+            });
+        } else {
+          // Load local file
           if( !md ) {
               // Use AsciiDoc format
             $('#contents').load(s+'.txt', function(){$('#contents').html(
@@ -38,6 +74,7 @@
               // Use Markdown format
               $('#contents').load(s, function(){$('#contents').html(markdown.toHTML($('#contents').text()))});
           }
+        }
       });
     </script>
   </head>
