@@ -31,7 +31,22 @@
         }
 
         if(isRemote) {
-          // Fetch remote URL
+          // Function to render content
+          var renderContent = function(content) {
+            if(md) {
+              // Use Markdown format
+              $('#contents').html(markdown.toHTML(content));
+            } else {
+              // Use AsciiDoc format
+              $('#contents').html(Asciidoctor().convert(content))
+                .find("span.icon")
+                .replaceWith(function(e) {
+                  return '<i class="fa fa-'+$(this).text().replace(/[\[\]]+/g,"")+'"/>';
+                });
+            }
+          };
+
+          // Try direct fetch first
           fetch(s)
             .then(response => {
               if (!response.ok) {
@@ -39,21 +54,22 @@
               }
               return response.text();
             })
-            .then(content => {
-              if(md) {
-                // Use Markdown format
-                $('#contents').html(markdown.toHTML(content));
-              } else {
-                // Use AsciiDoc format
-                $('#contents').html(Asciidoctor().convert(content))
-                  .find("span.icon")
-                  .replaceWith(function(e) {
-                    return '<i class="fa fa-'+$(this).text().replace(/[\[\]]+/g,"")+'"/>';
-                  });
-              }
-            })
+            .then(renderContent)
             .catch(error => {
-              $('#contents').html('<h1>Error loading remote content</h1><p>Could not load: ' + s + '</p><p>Error: ' + error.message + '</p><p>Note: This may be a CORS issue. The remote server must allow cross-origin requests.</p>');
+              // If direct fetch fails, try with CORS proxy
+              console.log('Direct fetch failed, trying CORS proxy...', error);
+              var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(s);
+              fetch(proxyUrl)
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Proxy response was not ok');
+                  }
+                  return response.text();
+                })
+                .then(renderContent)
+                .catch(proxyError => {
+                  $('#contents').html('<h1>Error loading remote content</h1><p>Could not load: ' + s + '</p><p>Direct fetch error: ' + error.message + '</p><p>CORS proxy error: ' + proxyError.message + '</p><p>The URL might be inaccessible or blocked.</p>');
+                });
             });
         } else {
           // Load local file
