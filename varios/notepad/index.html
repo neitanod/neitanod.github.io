@@ -40,7 +40,7 @@
         }
 
         if(window.location.hash) {     // si el URL tiene un hash, asumimos que es la key de los datos a recuperar
-            axios({ url: "https://publish.ip1.cc/storage/uploads/"+window.location.hash.substr(1)+".json" })  // recuperamos los datos
+            axios({ url: "https://publish.ip1.cc/public/"+window.location.hash.substr(1)+".txt" })  // recuperamos los datos
                 .then( function(r) {
                     console.log(r);
                     $('#text').innerHTML = r.data;

@@ -58,7 +58,7 @@
             .catch(error => {
               // If direct fetch fails, try with CORS proxy
               console.log('Direct fetch failed, trying CORS proxy...', error);
-              var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(s);
+              var proxyUrl = 'https://notas.ip1.cc/proxy.php?url=' + encodeURIComponent(s);
               fetch(proxyUrl)
                 .then(response => {
                   if (!response.ok) {
